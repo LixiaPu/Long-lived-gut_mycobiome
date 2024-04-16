@@ -7,7 +7,14 @@ library("pROC")
 
 rm(list = ls())
 
-feature <- read.table('Long-lived-gut_mycobiome_project/level-6-20-44_66-85_100-117.txt',header = T,sep = "\t",check.names = T)
+OTU_table<- read.csv("Long-lived-gut_mycobiome_project/otu.csv",sep=",",header=T, row.names = 1,stringsAsFactors = FALSE)
+metadata <- read.csv("Long-lived-gut_mycobiome_project/metadata.csv", header=TRUE, sep = ",",row.names = "SampleID",stringsAsFactors = F,fileEncoding = "GBK")
+otu_table_scaled <- scale(otu_table_rare_removed_norm, center = FALSE, scale = TRUE)
+richness<-estimate_richness(physeq1_rarefy, measures=c("Observed"))
+otu_table_scaled<-cbind(t(otu_table_scaled),richness)
+otu_table_scaled_all <- data.frame((otu_table_scaled))
+otu_table_scaled_all$Type <- as.factor(metadata[rownames(otu_table_scaled_all), "Type"])
+otu_table_scaled_all_used <- data.frame(otu_table_scaled_all)
 set.seed(151)
 train_use <- sample(nrow(otu_table_scaled_all_used), nrow(otu_table_scaled_all_used)*0.7)
 otu_table_scaled_train <- otu_table_scaled_all_used[train_use,]
