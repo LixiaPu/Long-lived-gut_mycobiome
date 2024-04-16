@@ -6,9 +6,10 @@ library("caret")
 library("pROC")
 
 rm(list = ls())
-
+##data import
 OTU_table<- read.csv("Long-lived-gut_mycobiome_project/otu.csv",sep=",",header=T, row.names = 1,stringsAsFactors = FALSE)
 metadata <- read.csv("Long-lived-gut_mycobiome_project/metadata.csv", header=TRUE, sep = ",",row.names = "SampleID",stringsAsFactors = F,fileEncoding = "GBK")
+
 otu_table_scaled <- scale(otu_table_rare_removed_norm, center = FALSE, scale = TRUE)
 richness<-estimate_richness(physeq1_rarefy, measures=c("Observed"))
 otu_table_scaled<-cbind(t(otu_table_scaled),richness)
