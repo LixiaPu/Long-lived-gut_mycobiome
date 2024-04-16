@@ -97,7 +97,7 @@ pcoa.unwighted.unifrac<-phyloseqin_sub.pcoa.df_unifracs$unifracs[,,"d_UW"]
 #wighted
 #pcoa.wighted.unifrac<-phyloseqin_sub.pcoa.df_unifracs$unifracs[,,"d_1"]
 rownames(data.nona) <- rownames(as.matrix(pcoa.unwighted.unifrac))
-#apcoa校正
+#apcoa ajust
 pcoa.unwighted.unifrac.result <- aPCoA(pcoa.unwighted.unifrac~Sex+BMI+Smoking+drinking_alcohol+drinking_tea+hypertension, data.nona, maincov = Type)
 pcoa.unwighted.unifrac.aPCoA.score <- data.frame(pcoa.unwighted.unifrac.result$plotMatrix)                                 
 PERMANOVA_metadata <- data.frame(sample_data(phyloseqin_sub.pcoa))
@@ -121,6 +121,7 @@ res1 <- cld(tuk1,alpah=0.05)
 fit2 <- aov(PC2~Group,data = plotdata.its)
 tuk2<-glht(fit2,linfct=mcp(Group="Tukey"))
 res2 <- cld(tuk2,alpah=0.05)
+#plot
 cbbPalette<-c("#E64B35FF","#4DBBD5FF","#3C5488FF")
 plotdata.its$Group=factor(plotdata.its$Group,levels = c("Young","Old","Long-lived"),labels = c("Young","Old","Long-lived"))
 p1 <- ggplot(plotdata.its,aes(Group,PC1)) +
